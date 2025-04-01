@@ -1,0 +1,30 @@
+plugins {
+    id("java-platform")
+    id("maven-publish")
+}
+
+version = "1.0.0"
+group = "com.example"
+
+repositories {
+    mavenCentral()
+    mavenLocal()
+}
+
+dependencies {
+    constraints {
+        api("com.example:library-a:${project.findProperty('library-a-version')}")
+        api("com.example:library-b:${project.findProperty('library-b-version')}")
+    }
+}
+
+publishing {
+    publications {
+        mavenBom(MavenPublication) {
+            from(components.javaPlatform)
+        }
+    }
+    repositories {
+        mavenLocal()
+    }
+}
